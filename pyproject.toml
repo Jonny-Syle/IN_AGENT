@@ -1,0 +1,16 @@
+[project]
+name = "in-agent"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dotenv>=0.9.9",
+    "matplotlib>=3.10.8",
+    "pandas>=3.0.1",
+    "pyodbc>=5.3.0",
+    "requests>=2.32.5",
+    "seaborn>=0.13.2",
+    "sqlalchemy>=2.0.48",
+    "tqdm>=4.67.3",
+]
