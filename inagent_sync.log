@@ -2,3 +2,17 @@
 2026-03-26 13:38:24,026 - INFO - No se encontraron registros nuevos para procesar.
 2026-03-26 13:43:11,672 - INFO -  Iniciando extracción desde 2026-03-25T00:00:00 hasta 2026-03-25T23:59:59
 2026-03-26 13:43:12,518 - INFO - No se encontraron registros nuevos para procesar.
+2026-04-01 12:19:25,399 - INFO - Entorno cargado y sistema de logs listo.
+2026-04-01 12:19:25,399 - INFO - ==================================================
+2026-04-01 12:19:25,399 - INFO - Iniciando pipeline de InAgent...
+2026-04-01 12:19:25,399 - INFO - Fechas configuradas: Desde 2026-03-31T00:00:00 hasta 2026-03-31T23:59:59
+2026-04-01 12:19:25,399 - INFO -  Iniciando extracción desde 2026-03-31T00:00:00 hasta 2026-03-31T23:59:59
+2026-04-01 12:19:26,242 - INFO - No se encontraron registros nuevos para procesar.
+2026-04-05 18:58:54,342 - INFO - Entorno cargado y sistema de logs listo.
+2026-04-05 18:58:54,342 - INFO - ==================================================
+2026-04-05 18:58:54,342 - INFO - Iniciando pipeline dinámico de InAgent (Multi-Crew)...
+2026-04-05 18:58:54,342 - INFO - Fechas configuradas: Desde 2026-03-31T00:00:00 hasta 2026-04-04T23:59:59
+2026-04-05 18:58:54,342 - INFO - Iniciando extracción desde 2026-03-31T00:00:00 hasta 2026-04-04T23:59:59
+2026-04-05 18:58:54,342 - INFO - Extrayendo datos corporativos de MEDICA (ID: 766cddc2-eaf9-464e-8f6d-8854ef927ff3)
+2026-04-05 18:58:55,445 - INFO - Extrayendo datos corporativos de OMV (ID: 2539ab63-c408-446a-b13e-1eef4f7c1ba3)
+2026-04-05 18:58:56,259 - INFO - No se encontraron registros nuevos para procesar.

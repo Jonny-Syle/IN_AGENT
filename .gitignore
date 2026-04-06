@@ -4,3 +4,7 @@ env
 venv
 __pycache__
 .venv
+notebooks/.DS_Store
+src/inagent_sync.log
+notebooks/Produccion_sql.csv
+notebooks/backup_inagent_*.csv
