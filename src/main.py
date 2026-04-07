@@ -31,7 +31,6 @@ console_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 logger.addHandler(console_handler)
 
-# --- 2. CARGA DE ENTORNO ---
 load_dotenv()
 
 REQUIRED_ENV_VARS = ["INAGENT_API_KEY", "INAGENT_URL", "INAGENT_CREW_ID", "DB_SERVER", "BD"]
@@ -45,7 +44,7 @@ API_KEY = os.getenv("INAGENT_API_KEY")
 ENDPOINT = os.getenv("INAGENT_URL")
 
 CREW_MAPPING = {
-    os.getenv("INAGENT_CREW_ID"): "MEDICA"
+    os.getenv("INAGENT_CREW_ID"): "DENTAL"
 }
 crew_id2 = os.getenv("INAGENT_CREW_ID2")
 if crew_id2:
@@ -63,7 +62,6 @@ TABLE_NAME = "dbo.inagent"
 
 logger.info("Entorno cargado y sistema de logs listo.")
 
-# --- 3. WHITELISTS EXACTAS DE LAB.IPYNB ---
 NATIVE_WHITELIST = [
     'Id', 'Id Externo', 'Id Canal', 'Canal', 'Timestamp', 'Inicio', 'Fin', 
     'Duración (s)', 'Análisis Sentimental', 'Tema general de la conversación', 
@@ -114,7 +112,6 @@ PARA_SQL = [
     'interaccion_unica', 'Estatus_Final', 'id_registro'
 ]
 
-# --- 4. FUNCIONES AUXILIARES ---
 def to_unix_ms(iso_date):
     dt = datetime.fromisoformat(iso_date).replace(tzinfo=timezone.utc)
     return int(dt.timestamp() * 1000)
@@ -131,7 +128,6 @@ def limpiar_nombres(txt):
     txt = "".join(c for c in unicodedata.normalize('NFD', txt) if unicodedata.category(c) != 'Mn')
     return txt.replace(" ", "_").replace("(", "").replace(")", "").replace(".", "_")
 
-# --- 5. EXTRACCIÓN CON BACKOFF Y MULTI-CREW ---
 def extract_inagent_data(start_iso, end_iso):
     all_data = []
     page_size = 100
@@ -204,7 +200,6 @@ def extract_inagent_data(start_iso, end_iso):
 
     return pd.DataFrame(all_data, columns=cols if cols else None)
 
-# --- 6. TRANSFORMACIÓN Y LIMPIEZA MODO LAB ---
 def aplicar_ancla_maestra(df): 
     df['tool_timestamp_dt'] = pd.to_datetime(df['tool_timestamp'], errors='coerce')
     df = df.sort_values(by=['Id', 'tool_timestamp_dt'], ascending=[True, False])
@@ -237,7 +232,6 @@ def pipeline_maestro_final(df, whitelist):
         df_sql['Id_Canal'] = df_sql['Origen']
         df_sql['Id_Externo'] = df_sql['id_registro'] # PK técnica de fila
 
-        # Mapeos especiales solicitados en Lab
         if 'interaccion_unica' in df_sql.columns:
             df_sql['tool_return_fetch_response_costPIFDoctor'] = df_sql['interaccion_unica']
         
@@ -272,7 +266,6 @@ def transform_data(df_raw):
     if df_raw.empty: return pd.DataFrame()
     logger.info("Iniciando transformaciones de datos...")
 
-    # A. Extraer context base
     df_native = df_raw[[c for c in NATIVE_WHITELIST if c in df_raw.columns]].copy()
     
     ctx_raw = pd.json_normalize(df_raw['Contexto'].apply(safe_json_parse))
@@ -281,7 +274,6 @@ def transform_data(df_raw):
     
     df_base = pd.concat([df_native, ctx_selected], axis=1)
 
-    # B. Explotar ToolLogs
     col_logs = 'ctx_toolLogs'
     if col_logs in df_base.columns:
         df_tools_exploded = df_base[['Id', col_logs]].dropna(subset=[col_logs]).explode(col_logs)
@@ -300,13 +292,11 @@ def transform_data(df_raw):
         
     df_final.columns = [c.replace(" ", "_").replace("(", "").replace(")", "").replace(".", "_") for c in df_final.columns]
     
-    # C. Limpieza, Anclas y Renombramiento Final
     df_preparado = aplicar_ancla_maestra(df_final)
     df_preparado = crear_id_compuesto_pro(df_preparado)
     df_listo = pipeline_maestro_final(df_preparado, PARA_SQL)
     
     if 'ctx_proxyData_sip_attributes_sip_h_x-tarjeta-id' in df_listo.columns:
-        # Arreglo manual del guión como en el lab
         df_listo.rename(columns={
             'ctx_proxyData_sip_attributes_sip_h_x-tarjeta-id': 'ctx_proxyData_sip_attributes_sip_h_x_tarjeta_id'
         }, inplace=True)
@@ -316,7 +306,6 @@ def transform_data(df_raw):
     
     return df_produccion
 
-# --- 7. CARGA A BASE DE DATOS SQL (CON EVASIÓN DE DUPLICADOS) ---
 def load_to_sql(df_para_sql):
     if df_para_sql.empty:
         logger.info("No hay datos extraídos de la API para procesar.")
@@ -328,7 +317,6 @@ def load_to_sql(df_para_sql):
         conn = pyodbc.connect(conn_str)
         cursor = conn.cursor()
         
-        # --- VERIFICACIÓN DE NUEVOS REGISTROS ---
         ids_externos_lote = tuple(df_para_sql['Id_Externo'].dropna().unique().tolist())
         existentes = set()
         
@@ -342,7 +330,6 @@ def load_to_sql(df_para_sql):
                 cursor.execute(query, chunk)
                 existentes.update([row[0] for row in cursor.fetchall()])
         
-        # Filtramos dejando solo lo que no está en la Base de Datos
         df_nuevos = df_para_sql[~df_para_sql['Id_Externo'].isin(existentes)].copy()
         
         if df_nuevos.empty:
@@ -351,7 +338,6 @@ def load_to_sql(df_para_sql):
             
         logger.info(f"De {len(df_para_sql)} filas extraídas, {len(df_nuevos)} son estrictamente nuevas (Las demás fueron ignoradas).")
         
-        # --- INGESTA SQL ---
         cursor.fast_executemany = True
         cursor.execute(f"IF OBJECT_ID('tempdb..#stg_inagent') IS NOT NULL DROP TABLE #stg_inagent")
         
@@ -395,7 +381,6 @@ def load_to_sql(df_para_sql):
         if 'conn' in locals(): conn.close()
 
 
-# --- 8. EJECUCIÓN DEL PIPELINE (MAIN) ---
 if __name__ == "__main__":
     env_start = os.getenv("START_DATE")
     env_end = os.getenv("END_DATE")
@@ -417,17 +402,13 @@ if __name__ == "__main__":
     logger.info("Iniciando pipeline dinámico de InAgent (Precisión Refactorizada)...")
     logger.info(f"Fechas configuradas: Desde {start_date} hasta {end_date}")
 
-    # Paso 1: Extracción
     df_raw = extract_inagent_data(start_date, end_date)
     
     if not df_raw.empty:
-        # Paso 2: Transformación (Equivalentes a `Lab.ipynb`)
         df_prod = transform_data(df_raw)
         
-        # Paso 3: Carga en base de datos con chequeo de nuevos registros
         load_to_sql(df_prod)
         
-        # Paso 4: Backup de seguridad
         backup_date = start_date[:10].replace("-", "") if env_start else ayer.strftime('%Y%m%d')
         df_prod.to_csv(f"notebooks/backup_inagent_{backup_date}.csv", index=False)
         logger.info(f"Respaldo generado en notebooks/backup_inagent_{backup_date}.csv")
