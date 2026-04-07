@@ -16,3 +16,35 @@
 2026-04-05 18:58:54,342 - INFO - Extrayendo datos corporativos de MEDICA (ID: 766cddc2-eaf9-464e-8f6d-8854ef927ff3)
 2026-04-05 18:58:55,445 - INFO - Extrayendo datos corporativos de OMV (ID: 2539ab63-c408-446a-b13e-1eef4f7c1ba3)
 2026-04-05 18:58:56,259 - INFO - No se encontraron registros nuevos para procesar.
+2026-04-06 10:07:27,748 - INFO - Entorno cargado y sistema de logs listo.
+2026-04-06 10:07:27,749 - INFO - ==================================================
+2026-04-06 10:07:27,749 - INFO - Iniciando pipeline dinámico de InAgent (Multi-Crew)...
+2026-04-06 10:07:27,749 - INFO - Fechas configuradas: Desde 2026-03-20T00:00:00 hasta 2026-04-05T23:59:59
+2026-04-06 10:07:27,749 - INFO - Iniciando extracción desde 2026-03-20T00:00:00 hasta 2026-04-05T23:59:59
+2026-04-06 10:07:27,749 - INFO - Extrayendo datos corporativos de MEDICA (ID: 766cddc2-eaf9-464e-8f6d-8854ef927ff3)
+2026-04-06 10:07:28,890 - INFO - Página 0 de MEDICA procesada. Total acumulado: 14
+2026-04-06 10:07:28,891 - INFO - Extrayendo datos corporativos de OMV (ID: 2539ab63-c408-446a-b13e-1eef4f7c1ba3)
+2026-04-06 10:07:29,909 - INFO - Página 0 de OMV procesada. Total acumulado: 29
+2026-04-06 10:07:29,915 - INFO - Iniciando transformaciones de datos...
+2026-04-06 10:07:29,939 - INFO - Generando identificadores únicos...
+2026-04-06 10:07:29,945 - INFO - Limpieza PK (id_registro): 85 -> 64 filas.
+2026-04-06 10:07:31,641 - INFO - Subiendo 64 registros limpios a Staging SQL...
+2026-04-06 10:07:38,112 - INFO - Ejecutando MERGE en tabla definitiva...
+2026-04-06 10:07:38,391 - INFO - ÉXITO TOTAL: 64 registros sincronizados correctamente en dbo.inagent.
+2026-04-06 10:07:38,399 - INFO - Respaldo generado: backup_inagent_20260320.csv
+2026-04-06 10:11:24,796 - INFO - Entorno cargado y sistema de logs listo.
+2026-04-06 10:11:24,796 - INFO - ==================================================
+2026-04-06 10:11:24,796 - INFO - Iniciando pipeline dinámico de InAgent (Multi-Crew)...
+2026-04-06 10:11:24,796 - INFO - Fechas configuradas: Desde 2026-04-05T00:00:00 hasta 2026-04-05T23:59:59
+2026-04-06 10:11:24,796 - INFO - Iniciando extracción desde 2026-04-05T00:00:00 hasta 2026-04-05T23:59:59
+2026-04-06 10:11:24,796 - INFO - Extrayendo datos corporativos de MEDICA (ID: 766cddc2-eaf9-464e-8f6d-8854ef927ff3)
+2026-04-06 10:11:25,596 - INFO - Extrayendo datos corporativos de OMV (ID: 2539ab63-c408-446a-b13e-1eef4f7c1ba3)
+2026-04-06 10:11:26,255 - INFO - No se encontraron registros nuevos para procesar.
+2026-04-07 12:06:38,760 - INFO - Entorno cargado y sistema de logs listo.
+2026-04-07 12:06:38,761 - INFO - ==================================================
+2026-04-07 12:06:38,761 - INFO - Iniciando pipeline dinámico de InAgent (Precisión Refactorizada)...
+2026-04-07 12:06:38,761 - INFO - Fechas configuradas: Desde 2026-04-06T00:00:00 hasta 2026-04-06T23:59:59
+2026-04-07 12:06:38,761 - INFO - Iniciando extracción desde 2026-04-06T00:00:00 hasta 2026-04-06T23:59:59
+2026-04-07 12:06:38,761 - INFO - Extrayendo datos corporativos de MEDICA (ID: 766cddc2-eaf9-464e-8f6d-8854ef927ff3)
+2026-04-07 12:06:39,863 - INFO - Extrayendo datos corporativos de OMV (ID: 2539ab63-c408-446a-b13e-1eef4f7c1ba3)
+2026-04-07 12:06:41,052 - INFO - El sistema de INAGENT devolvió 0 interacciones para el periodo.

@@ -8,3 +8,5 @@ notebooks/.DS_Store
 src/inagent_sync.log
 notebooks/Produccion_sql.csv
 notebooks/backup_inagent_*.csv
+notebooks/prepare.csv
+notebooks/tools.csv
