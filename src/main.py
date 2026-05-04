@@ -109,7 +109,7 @@ PARA_SQL = [
     'tool_return_fetch_response_nameDoctor', 'tool_return_fetch_response_name_service', 
     'tool_return_fetch_response_provider', 'tool_return_fetch_response_Kinship', 
     'tool_return_fetch_response_category', 'tool_timestamp_dt', 
-    'interaccion_unica', 'Estatus_Final', 'id_registro'
+    'interaccion_unica', 'Estatus_Final'
 ]
 
 def to_unix_ms(iso_date):
@@ -259,6 +259,14 @@ def pipeline_maestro_final(df, whitelist):
         else:
             df_sql[col] = df_sql[col].astype(str).replace(['n.n','nan', 'None', 'NaN', 'null'], None)
             df_sql[col] = df_sql[col].where(df_sql[col].notnull(), None)
+            
+            # Truncado preventivo para evitar Error de Truncación SQL (510 bytes = 255 chars)
+            if col in ['tool_return_fetch_response_nameDoctor', 'tool_return_fetch_response_name_service', 'tool_return_fetch_data_client_complete_name', 'ctx_proxyData_roomName', 'tool_body_fetch', 'tool_return_fetch']:
+                df_sql[col] = df_sql[col].apply(lambda x: x[:255] if isinstance(x, str) else x)
+            elif col in ['Estatus_Final', 'Id_Externo', 'Id', 'Id_Canal', 'ctx_tarjeta', 'tool_tool']:
+                df_sql[col] = df_sql[col].apply(lambda x: x[:100] if isinstance(x, str) else x)
+            elif col in ['Origen', 'Canal', 'tool_status', 'tool_return_fetch_status']:
+                df_sql[col] = df_sql[col].apply(lambda x: x[:50] if isinstance(x, str) else x)
 
     return df_sql
 
@@ -347,6 +355,9 @@ def load_to_sql(df_para_sql):
 
         plcholders = ", ".join("?" for _ in cols)
         sql_insert = f"INSERT INTO #stg_inagent ({col_names_bracketed}) VALUES ({plcholders})"
+        
+        # Asegurar unicidad absoluta antes de subir
+        df_nuevos = df_nuevos.drop_duplicates(subset=['Id_Externo']).copy()
         
         data_to_load = [tuple(x) for x in df_nuevos.values]
         

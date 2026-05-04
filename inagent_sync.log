@@ -48,3 +48,103 @@
 2026-04-07 12:06:38,761 - INFO - Extrayendo datos corporativos de MEDICA (ID: 766cddc2-eaf9-464e-8f6d-8854ef927ff3)
 2026-04-07 12:06:39,863 - INFO - Extrayendo datos corporativos de OMV (ID: 2539ab63-c408-446a-b13e-1eef4f7c1ba3)
 2026-04-07 12:06:41,052 - INFO - El sistema de INAGENT devolvió 0 interacciones para el periodo.
+2026-04-13 13:19:23,815 - INFO - Entorno cargado y sistema de logs listo.
+2026-04-13 13:19:23,815 - INFO - ==================================================
+2026-04-13 13:19:23,815 - INFO - Iniciando pipeline dinámico de InAgent (Precisión Refactorizada)...
+2026-04-13 13:19:23,815 - INFO - Fechas configuradas: Desde 2026-04-12T00:00:00 hasta 2026-04-12T23:59:59
+2026-04-13 13:19:23,816 - INFO - Iniciando extracción desde 2026-04-12T00:00:00 hasta 2026-04-12T23:59:59
+2026-04-13 13:19:23,816 - INFO - Extrayendo datos corporativos de DENTAL (ID: 766cddc2-eaf9-464e-8f6d-8854ef927ff3)
+2026-04-13 13:19:24,516 - INFO - Extrayendo datos corporativos de OMV (ID: 2539ab63-c408-446a-b13e-1eef4f7c1ba3)
+2026-04-13 13:19:25,041 - INFO - El sistema de INAGENT devolvió 0 interacciones para el periodo.
+2026-05-04 11:49:33,239 - INFO - Entorno cargado y sistema de logs listo.
+2026-05-04 11:49:33,239 - INFO - ==================================================
+2026-05-04 11:49:33,239 - INFO - Iniciando pipeline dinámico de InAgent (Precisión Refactorizada)...
+2026-05-04 11:49:33,239 - INFO - Fechas configuradas: Desde 2026-03-15T00:00:00 hasta 2026-05-03T23:59:59
+2026-05-04 11:49:33,239 - INFO - Iniciando extracción desde 2026-03-15T00:00:00 hasta 2026-05-03T23:59:59
+2026-05-04 11:49:33,239 - INFO - Extrayendo datos corporativos de DENTAL (ID: 766cddc2-eaf9-464e-8f6d-8854ef927ff3)
+2026-05-04 11:49:35,016 - INFO - Página 0 de DENTAL procesada. Total acumulado: 100
+2026-05-04 11:49:36,938 - INFO - Página 1 de DENTAL procesada. Total acumulado: 200
+2026-05-04 11:49:38,492 - INFO - Página 2 de DENTAL procesada. Total acumulado: 227
+2026-05-04 11:49:38,492 - INFO - Extrayendo datos corporativos de OMV (ID: 2539ab63-c408-446a-b13e-1eef4f7c1ba3)
+2026-05-04 11:49:39,855 - INFO - Página 0 de OMV procesada. Total acumulado: 301
+2026-05-04 11:49:39,860 - INFO - Iniciando transformaciones de datos...
+2026-05-04 11:49:39,910 - INFO -  Generando identificadores únicos (id_registro)...
+2026-05-04 11:49:40,799 - INFO - Consultando registros pre-existentes en SQL para evitar ejecución innecesaria...
+2026-05-04 11:49:41,661 - INFO - De 1231 filas extraídas, 1115 son estrictamente nuevas (Las demás fueron ignoradas).
+2026-05-04 11:49:41,926 - INFO - Subiendo 1115 registros a Staging DB...
+2026-05-04 11:49:47,429 - ERROR - Error en SQL: ('42000', '[42000] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Conversion failed when converting from a character string to uniqueidentifier. (8169) (SQLExecute)')
+2026-05-04 11:49:47,596 - INFO - Respaldo generado en notebooks/backup_inagent_20260315.csv
+2026-05-04 12:10:12,000 - INFO - Entorno cargado y sistema de logs listo.
+2026-05-04 12:10:12,000 - INFO - ==================================================
+2026-05-04 12:10:12,000 - INFO - Iniciando pipeline dinámico de InAgent (Precisión Refactorizada)...
+2026-05-04 12:10:12,000 - INFO - Fechas configuradas: Desde 2026-03-15T00:00:00 hasta 2026-05-03T23:59:59
+2026-05-04 12:10:12,000 - INFO - Iniciando extracción desde 2026-03-15T00:00:00 hasta 2026-05-03T23:59:59
+2026-05-04 12:10:12,000 - INFO - Extrayendo datos corporativos de DENTAL (ID: 766cddc2-eaf9-464e-8f6d-8854ef927ff3)
+2026-05-04 12:10:13,387 - INFO - Página 0 de DENTAL procesada. Total acumulado: 100
+2026-05-04 12:10:15,449 - INFO - Página 1 de DENTAL procesada. Total acumulado: 200
+2026-05-04 12:10:16,680 - INFO - Página 2 de DENTAL procesada. Total acumulado: 227
+2026-05-04 12:10:16,680 - INFO - Extrayendo datos corporativos de OMV (ID: 2539ab63-c408-446a-b13e-1eef4f7c1ba3)
+2026-05-04 12:10:17,887 - INFO - Página 0 de OMV procesada. Total acumulado: 301
+2026-05-04 12:10:17,892 - INFO - Iniciando transformaciones de datos...
+2026-05-04 12:10:17,941 - INFO -  Generando identificadores únicos (id_registro)...
+2026-05-04 12:10:18,960 - INFO - Consultando registros pre-existentes en SQL para evitar ejecución innecesaria...
+2026-05-04 12:10:19,405 - INFO - De 1231 filas extraídas, 1115 son estrictamente nuevas (Las demás fueron ignoradas).
+2026-05-04 12:10:19,599 - INFO - Subiendo 1115 registros a Staging DB...
+2026-05-04 12:10:26,312 - ERROR - Error en SQL: ('String data, right truncation: length 578 buffer 510', 'HY000')
+2026-05-04 12:10:26,415 - INFO - Respaldo generado en notebooks/backup_inagent_20260315.csv
+2026-05-04 12:10:38,504 - INFO - Entorno cargado y sistema de logs listo.
+2026-05-04 12:10:38,504 - INFO - ==================================================
+2026-05-04 12:10:38,504 - INFO - Iniciando pipeline dinámico de InAgent (Precisión Refactorizada)...
+2026-05-04 12:10:38,504 - INFO - Fechas configuradas: Desde 2026-03-15T00:00:00 hasta 2026-05-03T23:59:59
+2026-05-04 12:10:38,504 - INFO - Iniciando extracción desde 2026-03-15T00:00:00 hasta 2026-05-03T23:59:59
+2026-05-04 12:10:38,504 - INFO - Extrayendo datos corporativos de DENTAL (ID: 766cddc2-eaf9-464e-8f6d-8854ef927ff3)
+2026-05-04 12:10:40,319 - INFO - Página 0 de DENTAL procesada. Total acumulado: 100
+2026-05-04 12:10:42,131 - INFO - Página 1 de DENTAL procesada. Total acumulado: 200
+2026-05-04 12:10:43,514 - INFO - Página 2 de DENTAL procesada. Total acumulado: 227
+2026-05-04 12:10:43,514 - INFO - Extrayendo datos corporativos de OMV (ID: 2539ab63-c408-446a-b13e-1eef4f7c1ba3)
+2026-05-04 12:10:44,621 - INFO - Página 0 de OMV procesada. Total acumulado: 301
+2026-05-04 12:10:44,624 - INFO - Iniciando transformaciones de datos...
+2026-05-04 12:10:44,684 - INFO -  Generando identificadores únicos (id_registro)...
+2026-05-04 12:10:45,509 - INFO - Consultando registros pre-existentes en SQL para evitar ejecución innecesaria...
+2026-05-04 12:10:46,034 - INFO - De 1231 filas extraídas, 1115 son estrictamente nuevas (Las demás fueron ignoradas).
+2026-05-04 12:10:46,278 - INFO - Subiendo 1115 registros a Staging DB...
+2026-05-04 12:10:53,348 - ERROR - Error en SQL: ('String data, right truncation: length 578 buffer 510', 'HY000')
+2026-05-04 12:10:53,439 - INFO - Respaldo generado en notebooks/backup_inagent_20260315.csv
+2026-05-04 14:55:57,814 - INFO - Entorno cargado y sistema de logs listo.
+2026-05-04 14:55:57,814 - INFO - ==================================================
+2026-05-04 14:55:57,814 - INFO - Iniciando pipeline dinámico de InAgent (Precisión Refactorizada)...
+2026-05-04 14:55:57,814 - INFO - Fechas configuradas: Desde 2026-03-15T00:00:00 hasta 2026-05-03T23:59:59
+2026-05-04 14:55:57,814 - INFO - Iniciando extracción desde 2026-03-15T00:00:00 hasta 2026-05-03T23:59:59
+2026-05-04 14:55:57,814 - INFO - Extrayendo datos corporativos de DENTAL (ID: 766cddc2-eaf9-464e-8f6d-8854ef927ff3)
+2026-05-04 14:55:59,536 - INFO - Página 0 de DENTAL procesada. Total acumulado: 100
+2026-05-04 14:56:01,516 - INFO - Página 1 de DENTAL procesada. Total acumulado: 200
+2026-05-04 14:56:02,790 - INFO - Página 2 de DENTAL procesada. Total acumulado: 227
+2026-05-04 14:56:02,790 - INFO - Extrayendo datos corporativos de OMV (ID: 2539ab63-c408-446a-b13e-1eef4f7c1ba3)
+2026-05-04 14:56:04,276 - INFO - Página 0 de OMV procesada. Total acumulado: 301
+2026-05-04 14:56:04,281 - INFO - Iniciando transformaciones de datos...
+2026-05-04 14:56:04,327 - INFO -  Generando identificadores únicos (id_registro)...
+2026-05-04 14:56:05,284 - INFO - Consultando registros pre-existentes en SQL para evitar ejecución innecesaria...
+2026-05-04 14:56:06,282 - INFO - De 1231 filas extraídas, 1115 son estrictamente nuevas (Las demás fueron ignoradas).
+2026-05-04 14:56:06,543 - INFO - Subiendo 1115 registros a Staging DB...
+2026-05-04 14:57:21,128 - INFO - Ejecutando MERGE en tabla definitiva...
+2026-05-04 14:57:21,559 - ERROR - Error en SQL: ('42000', '[42000] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The MERGE statement attempted to UPDATE or DELETE the same row more than once. This happens when a target row matches more than one source row. A MERGE statement cannot UPDATE/DELETE the same row of the target table multiple times. Refine the ON clause to ensure a target row matches at most one source row, or use the GROUP BY clause to group the source rows. (8672) (SQLExecDirectW)')
+2026-05-04 14:57:21,596 - INFO - Respaldo generado en notebooks/backup_inagent_20260315.csv
+2026-05-04 15:52:11,383 - INFO - Entorno cargado y sistema de logs listo.
+2026-05-04 15:52:11,384 - INFO - ==================================================
+2026-05-04 15:52:11,384 - INFO - Iniciando pipeline dinámico de InAgent (Precisión Refactorizada)...
+2026-05-04 15:52:11,384 - INFO - Fechas configuradas: Desde 2026-03-15T00:00:00 hasta 2026-05-03T23:59:59
+2026-05-04 15:52:11,384 - INFO - Iniciando extracción desde 2026-03-15T00:00:00 hasta 2026-05-03T23:59:59
+2026-05-04 15:52:11,384 - INFO - Extrayendo datos corporativos de DENTAL (ID: 766cddc2-eaf9-464e-8f6d-8854ef927ff3)
+2026-05-04 15:52:13,136 - INFO - Página 0 de DENTAL procesada. Total acumulado: 100
+2026-05-04 15:52:15,126 - INFO - Página 1 de DENTAL procesada. Total acumulado: 200
+2026-05-04 15:52:16,463 - INFO - Página 2 de DENTAL procesada. Total acumulado: 227
+2026-05-04 15:52:16,463 - INFO - Extrayendo datos corporativos de OMV (ID: 2539ab63-c408-446a-b13e-1eef4f7c1ba3)
+2026-05-04 15:52:17,911 - INFO - Página 0 de OMV procesada. Total acumulado: 301
+2026-05-04 15:52:17,916 - INFO - Iniciando transformaciones de datos...
+2026-05-04 15:52:17,964 - INFO -  Generando identificadores únicos (id_registro)...
+2026-05-04 15:52:18,927 - INFO - Consultando registros pre-existentes en SQL para evitar ejecución innecesaria...
+2026-05-04 15:52:19,809 - INFO - De 1231 filas extraídas, 1115 son estrictamente nuevas (Las demás fueron ignoradas).
+2026-05-04 15:52:20,010 - INFO - Subiendo 1029 registros a Staging DB...
+2026-05-04 15:53:26,565 - INFO - Ejecutando MERGE en tabla definitiva...
+2026-05-04 15:53:26,901 - INFO - ÉXITO: 1029 registros sincronizados correctamente en dbo.inagent.
+2026-05-04 15:53:26,937 - INFO - Respaldo generado en notebooks/backup_inagent_20260315.csv
