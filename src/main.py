@@ -72,7 +72,8 @@ NATIVE_WHITELIST = [
 CONTEXT_WHITELIST = [
     'toolLogs', 'tarjeta', 
     'proxyData_sip_attributes_sip_trunkPhoneNumber',
-    'proxyData_sip_attributes_sip_h_x-tarjeta-id'
+    'proxyData_sip_attributes_sip_h_x-tarjeta-id',
+    'comb_resume'
 ]
 
 TOOL_WHITELIST = [
@@ -83,7 +84,7 @@ TOOL_WHITELIST = [
     'return_fetch.data.program_status','return_fetch.data.client_account',
     'return_fetch.data.client_telefono','return_fetch.success',
     'return_fetch.data.client_card','body_fetch.cas','body_fetch.cancelMotive',
-    'return_fetch.response.cas_folio','body_fetch.scheduleDate',
+    'return_fetch.response.cas_folio','return_fetch.cas_folio','body_fetch.scheduleDate',
     'body_fetch.specialty','return_fetch.response.nameDoctor',
     'return_fetch.response.name_service','return_fetch.response.creationDate',
     'return_fetch.response.title','return_fetch.response.provider',
@@ -109,7 +110,9 @@ PARA_SQL = [
     'tool_return_fetch_response_nameDoctor', 'tool_return_fetch_response_name_service', 
     'tool_return_fetch_response_provider', 'tool_return_fetch_response_Kinship', 
     'tool_return_fetch_response_category', 'tool_timestamp_dt', 
-    'interaccion_unica', 'Estatus_Final'
+    'interaccion_unica', 'Estatus_Final',
+    'tool_return_fetch_response_costPIFDoctor', 'tool_return_fetch_response_typeOfService',
+    'cas', 'ctx_comb_resume'
 ]
 
 def to_unix_ms(iso_date):
@@ -200,6 +203,36 @@ def extract_inagent_data(start_iso, end_iso):
 
     return pd.DataFrame(all_data, columns=cols if cols else None)
 
+def cas(df):
+    columnas_cas = ['tool_return_fetch_cas_folio', 'tool_body_fetch_cas', 'tool_return_fetch_response_cas_folio']
+    for col in columnas_cas:
+        if col not in df.columns:
+            df[col] = np.nan
+        else:
+            # Limpieza preventiva interna para que notna() funcione con strings basura
+            df[col] = df[col].astype(str).replace(['n.n','nan', 'None', 'NaN', 'null', 'nan', ''], np.nan)
+
+    condiciones = [
+        df['tool_return_fetch_cas_folio'].astype(str).str.contains('cas', case=False, na=False),
+        df['tool_body_fetch_cas'].notna(),
+        df['tool_return_fetch_response_cas_folio'].notna(),
+        df['tool_return_fetch_cas_folio'].notna()
+    ]
+
+    valores = [
+        df['tool_return_fetch_cas_folio'],
+        df['tool_body_fetch_cas'],
+        df['tool_return_fetch_response_cas_folio'],
+        df['tool_return_fetch_cas_folio']
+    ]
+
+    df['cas'] = np.select(condiciones, valores, default='SIN FOLIO CAS')
+    
+    # Limpieza final del resultado
+    df['cas'] = df['cas'].astype(str).str.upper().replace(['NAN', 'NONE', 'NULL'], 'SIN FOLIO CAS')
+
+    return df
+
 def aplicar_ancla_maestra(df): 
     df['tool_timestamp_dt'] = pd.to_datetime(df['tool_timestamp'], errors='coerce')
     df = df.sort_values(by=['Id', 'tool_timestamp_dt'], ascending=[True, False])
@@ -231,6 +264,10 @@ def pipeline_maestro_final(df, whitelist):
     if 'Origen' in df_sql.columns:
         df_sql['Id_Canal'] = df_sql['Origen']
         df_sql['Id_Externo'] = df_sql['id_registro'] # PK técnica de fila
+        
+        # Nuevo mapeo solicitado
+        if 'tool_return_fetch_cas_folio' in df_sql.columns:
+            df_sql['tool_return_fetch_response_nameDoctor'] = df_sql['tool_return_fetch_cas_folio']
 
         if 'interaccion_unica' in df_sql.columns:
             df_sql['tool_return_fetch_response_costPIFDoctor'] = df_sql['interaccion_unica']
@@ -261,12 +298,15 @@ def pipeline_maestro_final(df, whitelist):
             df_sql[col] = df_sql[col].where(df_sql[col].notnull(), None)
             
             # Truncado preventivo para evitar Error de Truncación SQL (510 bytes = 255 chars)
-            if col in ['tool_return_fetch_response_nameDoctor', 'tool_return_fetch_response_name_service', 'tool_return_fetch_data_client_complete_name', 'ctx_proxyData_roomName', 'tool_body_fetch', 'tool_return_fetch']:
-                df_sql[col] = df_sql[col].apply(lambda x: x[:255] if isinstance(x, str) else x)
+            if col in ['tool_return_fetch_response_nameDoctor', 'tool_return_fetch_response_name_service', 'tool_return_fetch_data_client_complete_name', 'ctx_proxyData_roomName', 'tool_body_fetch', 'tool_return_fetch', 'ctx_comb_resume']:
+                df_sql[col] = df_sql[col].astype(str).str.slice(0, 255)
+                df_sql[col] = df_sql[col].replace(['None', 'nan', 'NaN', 'null'], None)
             elif col in ['Estatus_Final', 'Id_Externo', 'Id', 'Id_Canal', 'ctx_tarjeta', 'tool_tool']:
-                df_sql[col] = df_sql[col].apply(lambda x: x[:100] if isinstance(x, str) else x)
+                df_sql[col] = df_sql[col].astype(str).str.slice(0, 100)
+                df_sql[col] = df_sql[col].replace(['None', 'nan', 'NaN', 'null'], None)
             elif col in ['Origen', 'Canal', 'tool_status', 'tool_return_fetch_status']:
-                df_sql[col] = df_sql[col].apply(lambda x: x[:50] if isinstance(x, str) else x)
+                df_sql[col] = df_sql[col].astype(str).str.slice(0, 50)
+                df_sql[col] = df_sql[col].replace(['None', 'nan', 'NaN', 'null'], None)
 
     return df_sql
 
@@ -274,14 +314,20 @@ def transform_data(df_raw):
     if df_raw.empty: return pd.DataFrame()
     logger.info("Iniciando transformaciones de datos...")
 
+    # 1. Native Whitelist
     df_native = df_raw[[c for c in NATIVE_WHITELIST if c in df_raw.columns]].copy()
     
+    # 2. Context Normalization
     ctx_raw = pd.json_normalize(df_raw['Contexto'].apply(safe_json_parse))
     ctx_raw.columns = [c.replace(".", "_") for c in ctx_raw.columns]
+    
+    # 3. Context Selection (Aquí es donde entra comb_resume)
     ctx_selected = ctx_raw[[c for c in CONTEXT_WHITELIST if c in ctx_raw.columns]].add_prefix('ctx_')
     
+    # 4. Base DataFrame
     df_base = pd.concat([df_native, ctx_selected], axis=1)
 
+    # 5. Tools Explosion
     col_logs = 'ctx_toolLogs'
     if col_logs in df_base.columns:
         df_tools_exploded = df_base[['Id', col_logs]].dropna(subset=[col_logs]).explode(col_logs)
@@ -298,12 +344,17 @@ def transform_data(df_raw):
     else:
         df_final = df_base
         
+    # 6. Final Clean & Pipeline
     df_final.columns = [c.replace(" ", "_").replace("(", "").replace(")", "").replace(".", "_") for c in df_final.columns]
     
     df_preparado = aplicar_ancla_maestra(df_final)
     df_preparado = crear_id_compuesto_pro(df_preparado)
+    df_preparado = cas(df_preparado)
+    
+    # Aquí pasamos a la limpieza final de tipos y truncados
     df_listo = pipeline_maestro_final(df_preparado, PARA_SQL)
     
+    # Renombrado de emergencia para la tarjeta (si no ocurrió en el pipeline)
     if 'ctx_proxyData_sip_attributes_sip_h_x-tarjeta-id' in df_listo.columns:
         df_listo.rename(columns={
             'ctx_proxyData_sip_attributes_sip_h_x-tarjeta-id': 'ctx_proxyData_sip_attributes_sip_h_x_tarjeta_id'
@@ -356,8 +407,26 @@ def load_to_sql(df_para_sql):
         plcholders = ", ".join("?" for _ in cols)
         sql_insert = f"INSERT INTO #stg_inagent ({col_names_bracketed}) VALUES ({plcholders})"
         
-        # Asegurar unicidad absoluta antes de subir
+        # --- LIMPIEZA DE EMERGENCIA ANTES DE CARGAR (Sincronizado con Lab.ipynb) ---
+        # 1. Truncar columnas problemáticas (Error 510 buffer)
+        cols_to_trim = ['tool_return_fetch_response_nameDoctor', 'tool_return_fetch_response_name_service', 
+                        'tool_return_fetch_data_client_complete_name', 'tool_body_fetch', 'tool_return_fetch', 'ctx_comb_resume']
+        for c in cols_to_trim:
+            if c in df_nuevos.columns:
+                df_nuevos[c] = df_nuevos[c].astype(str).str.slice(0, 255)
+                df_nuevos[c] = df_nuevos[c].replace(['None', 'nan', 'NaN', 'null'], None)
+
+        # 2. Eliminar id_registro si existe (Evita error uniqueidentifier)
+        if 'id_registro' in df_nuevos.columns:
+            df_nuevos = df_nuevos.drop(columns=['id_registro'])
+
+        # 3. Asegurar unicidad absoluta antes de subir
         df_nuevos = df_nuevos.drop_duplicates(subset=['Id_Externo']).copy()
+        
+        cols = df_nuevos.columns.tolist()
+        col_names_bracketed = ", ".join(f"[{c}]" for c in cols)
+        plcholders = ", ".join("?" for _ in cols)
+        sql_insert = f"INSERT INTO #stg_inagent ({col_names_bracketed}) VALUES ({plcholders})"
         
         data_to_load = [tuple(x) for x in df_nuevos.values]
         
@@ -373,7 +442,9 @@ def load_to_sql(df_para_sql):
                 target.Analisis_Sentimental = source.Analisis_Sentimental,
                 target.Tema_general_de_la_conversacion = source.Tema_general_de_la_conversacion,
                 target.tool_status = source.tool_status,
-                target.tool_return_fetch_message = source.tool_return_fetch_message
+                target.tool_return_fetch_message = source.tool_return_fetch_message,
+                target.cas = source.cas,
+                target.ctx_comb_resume = source.ctx_comb_resume
         WHEN NOT MATCHED THEN
             INSERT ({col_names_bracketed})
             VALUES ({', '.join(f'source.[{c}]' for c in cols)});
@@ -397,17 +468,18 @@ if __name__ == "__main__":
     env_end = os.getenv("END_DATE")
     
     hoy = datetime.now()
-    ayer = hoy - timedelta(days=1)
+    # Ventana de tiempo real: últimos 60 minutos para asegurar captura con traslape
+    hace_una_hora = hoy - timedelta(minutes=60)
     
     if env_start:
         start_date = env_start
     else:
-        start_date = ayer.strftime("%Y-%m-%dT00:00:00")
+        start_date = hace_una_hora.strftime("%Y-%m-%dT%H:%M:%S")
         
     if env_end:
         end_date = env_end
     else:
-        end_date = ayer.strftime("%Y-%m-%dT23:59:59")
+        end_date = hoy.strftime("%Y-%m-%dT%H:%M:%S")
         
     logger.info("="*50)
     logger.info("Iniciando pipeline dinámico de InAgent (Precisión Refactorizada)...")
@@ -420,8 +492,9 @@ if __name__ == "__main__":
         
         load_to_sql(df_prod)
         
-        backup_date = start_date[:10].replace("-", "") if env_start else ayer.strftime('%Y%m%d')
-        df_prod.to_csv(f"notebooks/backup_inagent_{backup_date}.csv", index=False)
-        logger.info(f"Respaldo generado en notebooks/backup_inagent_{backup_date}.csv")
+        # Respaldo con fecha y hora para evitar sobreescritura en ejecuciones frecuentes
+        timestamp_str = datetime.now().strftime('%Y%m%d_%H%M')
+        df_prod.to_csv(f"notebooks/backup_inagent_{timestamp_str}.csv", index=False)
+        logger.info(f"Respaldo generado en notebooks/backup_inagent_{timestamp_str}.csv")
     else:
         logger.info("El sistema de INAGENT devolvió 0 interacciones para el periodo.")

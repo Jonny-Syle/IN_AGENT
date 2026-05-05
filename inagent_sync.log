@@ -148,3 +148,45 @@
 2026-05-04 15:53:26,565 - INFO - Ejecutando MERGE en tabla definitiva...
 2026-05-04 15:53:26,901 - INFO - ÉXITO: 1029 registros sincronizados correctamente en dbo.inagent.
 2026-05-04 15:53:26,937 - INFO - Respaldo generado en notebooks/backup_inagent_20260315.csv
+2026-05-05 16:15:32,160 - INFO - Entorno cargado y sistema de logs listo.
+2026-05-05 16:15:32,161 - INFO - ==================================================
+2026-05-05 16:15:32,162 - INFO - Iniciando pipeline dinámico de InAgent (Precisión Refactorizada)...
+2026-05-05 16:15:32,162 - INFO - Fechas configuradas: Desde 2026-03-15T00:00:00 hasta 2026-05-05T16:15:32
+2026-05-05 16:15:32,162 - INFO - Iniciando extracción desde 2026-03-15T00:00:00 hasta 2026-05-05T16:15:32
+2026-05-05 16:15:32,162 - INFO - Extrayendo datos corporativos de DENTAL (ID: 766cddc2-eaf9-464e-8f6d-8854ef927ff3)
+2026-05-05 16:15:33,975 - INFO - Página 0 de DENTAL procesada. Total acumulado: 100
+2026-05-05 16:15:36,171 - INFO - Página 1 de DENTAL procesada. Total acumulado: 200
+2026-05-05 16:15:38,282 - INFO - Página 2 de DENTAL procesada. Total acumulado: 300
+2026-05-05 16:15:40,219 - INFO - Página 3 de DENTAL procesada. Total acumulado: 368
+2026-05-05 16:15:40,219 - INFO - Extrayendo datos corporativos de OMV (ID: 2539ab63-c408-446a-b13e-1eef4f7c1ba3)
+2026-05-05 16:15:41,482 - INFO - Página 0 de OMV procesada. Total acumulado: 468
+2026-05-05 16:15:42,964 - INFO - Página 1 de OMV procesada. Total acumulado: 473
+2026-05-05 16:15:42,970 - INFO - Iniciando transformaciones de datos...
+2026-05-05 16:15:43,035 - INFO -  Generando identificadores únicos (id_registro)...
+2026-05-05 16:15:43,972 - INFO - Consultando registros pre-existentes en SQL para evitar ejecución innecesaria...
+2026-05-05 16:15:45,718 - INFO - De 2285 filas extraídas, 89 son estrictamente nuevas (Las demás fueron ignoradas).
+2026-05-05 16:15:45,944 - INFO - Subiendo 42 registros a Staging DB...
+2026-05-05 16:15:52,877 - INFO - Ejecutando MERGE en tabla definitiva...
+2026-05-05 16:15:53,304 - INFO - ÉXITO: 42 registros sincronizados correctamente en dbo.inagent.
+2026-05-05 16:15:53,357 - INFO - Respaldo generado en notebooks/backup_inagent_20260505_1615.csv
+2026-05-05 17:32:46,961 - INFO - Entorno cargado y sistema de logs listo.
+2026-05-05 17:32:46,961 - INFO - ==================================================
+2026-05-05 17:32:46,961 - INFO - Iniciando pipeline dinámico de InAgent (Precisión Refactorizada)...
+2026-05-05 17:32:46,961 - INFO - Fechas configuradas: Desde 2026-03-15T00:00:00 hasta 2026-05-05T17:32:46
+2026-05-05 17:32:46,961 - INFO - Iniciando extracción desde 2026-03-15T00:00:00 hasta 2026-05-05T17:32:46
+2026-05-05 17:32:46,961 - INFO - Extrayendo datos corporativos de DENTAL (ID: 766cddc2-eaf9-464e-8f6d-8854ef927ff3)
+2026-05-05 17:32:49,725 - INFO - Página 0 de DENTAL procesada. Total acumulado: 100
+2026-05-05 17:32:52,315 - INFO - Página 1 de DENTAL procesada. Total acumulado: 200
+2026-05-05 17:32:57,879 - INFO - Página 2 de DENTAL procesada. Total acumulado: 300
+2026-05-05 17:32:59,942 - INFO - Página 3 de DENTAL procesada. Total acumulado: 379
+2026-05-05 17:32:59,942 - INFO - Extrayendo datos corporativos de OMV (ID: 2539ab63-c408-446a-b13e-1eef4f7c1ba3)
+2026-05-05 17:33:01,474 - INFO - Página 0 de OMV procesada. Total acumulado: 479
+2026-05-05 17:33:02,683 - INFO - Página 1 de OMV procesada. Total acumulado: 486
+2026-05-05 17:33:02,689 - INFO - Iniciando transformaciones de datos...
+2026-05-05 17:33:02,761 - INFO -  Generando identificadores únicos (id_registro)...
+2026-05-05 17:33:03,704 - INFO - Consultando registros pre-existentes en SQL para evitar ejecución innecesaria...
+2026-05-05 17:33:06,676 - INFO - De 2352 filas extraídas, 114 son estrictamente nuevas (Las demás fueron ignoradas).
+2026-05-05 17:33:06,880 - INFO - Subiendo 65 registros a Staging DB...
+2026-05-05 17:33:14,400 - INFO - Ejecutando MERGE en tabla definitiva...
+2026-05-05 17:33:14,865 - INFO - ÉXITO: 65 registros sincronizados correctamente en dbo.inagent.
+2026-05-05 17:33:14,909 - INFO - Respaldo generado en notebooks/backup_inagent_20260505_1733.csv
