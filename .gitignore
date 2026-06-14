@@ -10,3 +10,11 @@ notebooks/Produccion_sql.csv
 notebooks/backup_inagent_*.csv
 notebooks/prepare.csv
 notebooks/tools.csv
+notebooks/context.csv
+inagent_sync.log
+.DS_Store
+context.csv
+inicial.csv
+prepare.csv
+tools.csv
+db.sql
