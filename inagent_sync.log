@@ -1187,3 +1187,118 @@
 2026-07-08 09:24:52,314 - INFO - Subiendo 6717 registros a Staging DB...
 2026-07-08 09:25:08,633 - INFO - Ejecutando MERGE en tabla definitiva...
 2026-07-08 09:25:11,374 - INFO - ÉXITO: 6717 registros sincronizados correctamente en dbo.inagent.
+2026-07-14 09:48:11,646 - INFO - Entorno cargado y sistema de logs listo.
+2026-07-14 09:48:11,646 - INFO - ==================================================
+2026-07-14 09:48:11,646 - INFO - Iniciando pipeline dinámico de InAgent (Precisión Refactorizada)...
+2026-07-14 09:48:11,646 - INFO - Fechas configuradas: Desde 2026-07-07T09:48:11 hasta 2026-07-14T09:48:11
+2026-07-14 09:48:11,646 - INFO - Iniciando extracción desde 2026-07-07T09:48:11 hasta 2026-07-14T09:48:11
+2026-07-14 09:48:11,646 - INFO - Extrayendo datos corporativos de DENTAL (ID: 766cddc2-eaf9-464e-8f6d-8854ef927ff3)
+2026-07-14 09:48:13,819 - INFO - Página 0 de DENTAL procesada. Total acumulado: 100
+2026-07-14 09:48:16,290 - INFO - Página 1 de DENTAL procesada. Total acumulado: 200
+2026-07-14 09:48:18,536 - INFO - Página 2 de DENTAL procesada. Total acumulado: 300
+2026-07-14 09:48:20,475 - INFO - Página 3 de DENTAL procesada. Total acumulado: 400
+2026-07-14 09:48:22,014 - INFO - Página 4 de DENTAL procesada. Total acumulado: 414
+2026-07-14 09:48:22,015 - INFO - Extrayendo datos corporativos de OMV (ID: 2539ab63-c408-446a-b13e-1eef4f7c1ba3)
+2026-07-14 09:48:23,388 - INFO - Página 0 de OMV procesada. Total acumulado: 504
+2026-07-14 09:48:23,389 - INFO - Extrayendo datos corporativos de CHECKUP (ID: ad5b9db4-55db-4a2d-b57b-29029c4105f8)
+2026-07-14 09:48:24,884 - INFO - Página 0 de CHECKUP procesada. Total acumulado: 604
+2026-07-14 09:48:27,429 - INFO - Página 1 de CHECKUP procesada. Total acumulado: 704
+2026-07-14 09:48:29,613 - INFO - Página 2 de CHECKUP procesada. Total acumulado: 804
+2026-07-14 09:48:31,830 - INFO - Página 3 de CHECKUP procesada. Total acumulado: 904
+2026-07-14 09:48:34,198 - INFO - Página 4 de CHECKUP procesada. Total acumulado: 1004
+2026-07-14 09:48:36,138 - INFO - Página 5 de CHECKUP procesada. Total acumulado: 1104
+2026-07-14 09:48:38,391 - INFO - Página 6 de CHECKUP procesada. Total acumulado: 1204
+2026-07-14 09:48:40,430 - INFO - Página 7 de CHECKUP procesada. Total acumulado: 1304
+2026-07-14 09:48:41,806 - INFO - Página 8 de CHECKUP procesada. Total acumulado: 1307
+2026-07-14 09:48:41,806 - INFO - Extrayendo datos corporativos de GRUA (ID: ac922234-048b-4c9e-83a5-ce430fff4e2c)
+2026-07-14 09:48:42,484 - INFO - Extrayendo datos corporativos de HOGAR (ID: 41e55ebd-2ff0-4fd8-a0e0-2f9730d6f23d)
+2026-07-14 09:48:43,044 - INFO - Iniciando transformaciones de datos...
+2026-07-14 09:48:43,233 - INFO -  Generando identificadores únicos (id_registro)...
+2026-07-14 09:48:45,696 - INFO - Subiendo 8177 registros a Staging DB...
+2026-07-14 09:49:00,268 - INFO - Ejecutando MERGE en tabla definitiva...
+2026-07-14 09:49:01,715 - INFO - ÉXITO: 8177 registros sincronizados correctamente en dbo.inagent.
+2026-07-15 09:03:59,363 - INFO - Entorno cargado y sistema de logs listo.
+2026-07-15 09:03:59,364 - INFO - ==================================================
+2026-07-15 09:03:59,364 - INFO - Iniciando pipeline dinámico de InAgent (Precisión Refactorizada)...
+2026-07-15 09:03:59,364 - INFO - Fechas configuradas: Desde 2026-07-08T09:03:59 hasta 2026-07-15T09:03:59
+2026-07-15 09:03:59,364 - INFO - Iniciando extracción desde 2026-07-08T09:03:59 hasta 2026-07-15T09:03:59
+2026-07-15 09:03:59,364 - INFO - Extrayendo datos corporativos de DENTAL (ID: 766cddc2-eaf9-464e-8f6d-8854ef927ff3)
+2026-07-15 09:04:01,212 - INFO - Página 0 de DENTAL procesada. Total acumulado: 100
+2026-07-15 09:04:03,418 - INFO - Página 1 de DENTAL procesada. Total acumulado: 200
+2026-07-15 09:04:05,403 - INFO - Página 2 de DENTAL procesada. Total acumulado: 300
+2026-07-15 09:04:07,509 - INFO - Página 3 de DENTAL procesada. Total acumulado: 377
+2026-07-15 09:04:07,509 - INFO - Extrayendo datos corporativos de OMV (ID: 2539ab63-c408-446a-b13e-1eef4f7c1ba3)
+2026-07-15 09:04:09,223 - INFO - Página 0 de OMV procesada. Total acumulado: 465
+2026-07-15 09:04:09,223 - INFO - Extrayendo datos corporativos de CHECKUP (ID: ad5b9db4-55db-4a2d-b57b-29029c4105f8)
+2026-07-15 09:04:10,581 - INFO - Página 0 de CHECKUP procesada. Total acumulado: 565
+2026-07-15 09:04:12,500 - INFO - Página 1 de CHECKUP procesada. Total acumulado: 665
+2026-07-15 09:04:14,658 - INFO - Página 2 de CHECKUP procesada. Total acumulado: 765
+2026-07-15 09:04:16,794 - INFO - Página 3 de CHECKUP procesada. Total acumulado: 865
+2026-07-15 09:04:18,723 - INFO - Página 4 de CHECKUP procesada. Total acumulado: 965
+2026-07-15 09:04:20,553 - INFO - Página 5 de CHECKUP procesada. Total acumulado: 1065
+2026-07-15 09:04:22,665 - INFO - Página 6 de CHECKUP procesada. Total acumulado: 1165
+2026-07-15 09:04:24,669 - INFO - Página 7 de CHECKUP procesada. Total acumulado: 1265
+2026-07-15 09:04:26,505 - INFO - Página 8 de CHECKUP procesada. Total acumulado: 1296
+2026-07-15 09:04:26,505 - INFO - Extrayendo datos corporativos de GRUA (ID: ac922234-048b-4c9e-83a5-ce430fff4e2c)
+2026-07-15 09:04:27,036 - INFO - Extrayendo datos corporativos de HOGAR (ID: 41e55ebd-2ff0-4fd8-a0e0-2f9730d6f23d)
+2026-07-15 09:04:27,748 - INFO - Iniciando transformaciones de datos...
+2026-07-15 09:04:27,938 - INFO -  Generando identificadores únicos (id_registro)...
+2026-07-15 09:04:31,220 - INFO - Subiendo 8357 registros a Staging DB...
+2026-07-15 09:04:45,335 - INFO - Ejecutando MERGE en tabla definitiva...
+2026-07-15 09:04:46,847 - INFO - ÉXITO: 8357 registros sincronizados correctamente en dbo.inagent.
+2026-07-16 09:37:53,717 - INFO - Entorno cargado y sistema de logs listo.
+2026-07-16 09:37:53,718 - INFO - ==================================================
+2026-07-16 09:37:53,718 - INFO - Iniciando pipeline dinámico de InAgent (Precisión Refactorizada)...
+2026-07-16 09:37:53,718 - INFO - Fechas configuradas: Desde 2026-07-09T09:37:53 hasta 2026-07-16T09:37:53
+2026-07-16 09:37:53,718 - INFO - Iniciando extracción desde 2026-07-09T09:37:53 hasta 2026-07-16T09:37:53
+2026-07-16 09:37:53,718 - INFO - Extrayendo datos corporativos de DENTAL (ID: 766cddc2-eaf9-464e-8f6d-8854ef927ff3)
+2026-07-16 09:37:55,733 - INFO - Página 0 de DENTAL procesada. Total acumulado: 100
+2026-07-16 09:37:58,036 - INFO - Página 1 de DENTAL procesada. Total acumulado: 200
+2026-07-16 09:38:00,596 - INFO - Página 2 de DENTAL procesada. Total acumulado: 300
+2026-07-16 09:38:02,599 - INFO - Página 3 de DENTAL procesada. Total acumulado: 378
+2026-07-16 09:38:02,599 - INFO - Extrayendo datos corporativos de OMV (ID: 2539ab63-c408-446a-b13e-1eef4f7c1ba3)
+2026-07-16 09:38:04,556 - INFO - Página 0 de OMV procesada. Total acumulado: 472
+2026-07-16 09:38:04,556 - INFO - Extrayendo datos corporativos de CHECKUP (ID: ad5b9db4-55db-4a2d-b57b-29029c4105f8)
+2026-07-16 09:38:06,231 - INFO - Página 0 de CHECKUP procesada. Total acumulado: 572
+2026-07-16 09:38:08,351 - INFO - Página 1 de CHECKUP procesada. Total acumulado: 672
+2026-07-16 09:38:10,565 - INFO - Página 2 de CHECKUP procesada. Total acumulado: 772
+2026-07-16 09:38:12,751 - INFO - Página 3 de CHECKUP procesada. Total acumulado: 872
+2026-07-16 09:38:14,914 - INFO - Página 4 de CHECKUP procesada. Total acumulado: 972
+2026-07-16 09:38:16,841 - INFO - Página 5 de CHECKUP procesada. Total acumulado: 1072
+2026-07-16 09:38:18,877 - INFO - Página 6 de CHECKUP procesada. Total acumulado: 1172
+2026-07-16 09:38:20,801 - INFO - Página 7 de CHECKUP procesada. Total acumulado: 1272
+2026-07-16 09:38:22,735 - INFO - Página 8 de CHECKUP procesada. Total acumulado: 1318
+2026-07-16 09:38:22,735 - INFO - Extrayendo datos corporativos de GRUA (ID: ac922234-048b-4c9e-83a5-ce430fff4e2c)
+2026-07-16 09:38:23,274 - INFO - Extrayendo datos corporativos de HOGAR (ID: 41e55ebd-2ff0-4fd8-a0e0-2f9730d6f23d)
+2026-07-16 09:38:23,842 - INFO - Iniciando transformaciones de datos...
+2026-07-16 09:38:24,055 - INFO -  Generando identificadores únicos (id_registro)...
+2026-07-16 09:38:40,763 - ERROR - Error en SQL: ('HYT00', '[HYT00] [Microsoft][ODBC Driver 18 for SQL Server]Login timeout expired (0) (SQLDriverConnect)')
+2026-07-16 10:31:20,726 - INFO - Entorno cargado y sistema de logs listo.
+2026-07-16 10:31:20,726 - INFO - ==================================================
+2026-07-16 10:31:20,726 - INFO - Iniciando pipeline dinámico de InAgent (Precisión Refactorizada)...
+2026-07-16 10:31:20,726 - INFO - Fechas configuradas: Desde 2026-07-09T10:31:20 hasta 2026-07-16T10:31:20
+2026-07-16 10:31:20,726 - INFO - Iniciando extracción desde 2026-07-09T10:31:20 hasta 2026-07-16T10:31:20
+2026-07-16 10:31:20,726 - INFO - Extrayendo datos corporativos de DENTAL (ID: 766cddc2-eaf9-464e-8f6d-8854ef927ff3)
+2026-07-16 10:31:23,053 - INFO - Página 0 de DENTAL procesada. Total acumulado: 100
+2026-07-16 10:31:25,316 - INFO - Página 1 de DENTAL procesada. Total acumulado: 200
+2026-07-16 10:31:27,447 - INFO - Página 2 de DENTAL procesada. Total acumulado: 300
+2026-07-16 10:31:29,756 - INFO - Página 3 de DENTAL procesada. Total acumulado: 377
+2026-07-16 10:31:29,756 - INFO - Extrayendo datos corporativos de OMV (ID: 2539ab63-c408-446a-b13e-1eef4f7c1ba3)
+2026-07-16 10:31:31,442 - INFO - Página 0 de OMV procesada. Total acumulado: 470
+2026-07-16 10:31:31,442 - INFO - Extrayendo datos corporativos de CHECKUP (ID: ad5b9db4-55db-4a2d-b57b-29029c4105f8)
+2026-07-16 10:31:32,687 - INFO - Página 0 de CHECKUP procesada. Total acumulado: 570
+2026-07-16 10:31:34,503 - INFO - Página 1 de CHECKUP procesada. Total acumulado: 670
+2026-07-16 10:31:36,491 - INFO - Página 2 de CHECKUP procesada. Total acumulado: 770
+2026-07-16 10:31:38,684 - INFO - Página 3 de CHECKUP procesada. Total acumulado: 870
+2026-07-16 10:31:40,678 - INFO - Página 4 de CHECKUP procesada. Total acumulado: 970
+2026-07-16 10:31:42,554 - INFO - Página 5 de CHECKUP procesada. Total acumulado: 1070
+2026-07-16 10:31:44,444 - INFO - Página 6 de CHECKUP procesada. Total acumulado: 1170
+2026-07-16 10:31:46,355 - INFO - Página 7 de CHECKUP procesada. Total acumulado: 1270
+2026-07-16 10:31:48,259 - INFO - Página 8 de CHECKUP procesada. Total acumulado: 1317
+2026-07-16 10:31:48,259 - INFO - Extrayendo datos corporativos de GRUA (ID: ac922234-048b-4c9e-83a5-ce430fff4e2c)
+2026-07-16 10:31:48,773 - INFO - Extrayendo datos corporativos de HOGAR (ID: 41e55ebd-2ff0-4fd8-a0e0-2f9730d6f23d)
+2026-07-16 10:31:49,298 - INFO - Iniciando transformaciones de datos...
+2026-07-16 10:31:49,503 - INFO -  Generando identificadores únicos (id_registro)...
+2026-07-16 10:31:52,648 - INFO - Subiendo 8483 registros a Staging DB...
+2026-07-16 10:32:06,972 - INFO - Ejecutando MERGE en tabla definitiva...
+2026-07-16 10:32:08,342 - INFO - ÉXITO: 8483 registros sincronizados correctamente en dbo.inagent.
