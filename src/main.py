@@ -89,7 +89,19 @@ TOOL_WHITELIST = [
     'return_fetch.response.name_service','return_fetch.response.creationDate',
     'return_fetch.response.title','return_fetch.response.provider',
     'return_fetch.response.Kinship','return_fetch.response.category',
-    'return_fetch_response.cas_folio'
+    'return_fetch_response.cas_folio',
+    'return_fetch.data.data.cas_folio', 'return_fetch.data.data.asistencia_id',
+    'return_fetch.data.data.isZonaRoja', 'body_fetch.vehiculo.datos_planos.marca',
+    'body_fetch.vehiculo.datos_planos.modelo', 'body_fetch.vehiculo.datos_planos.color',
+    'body_fetch.vehiculo.anio', 'body_fetch.vehiculo.placas',
+    'body_fetch.sondeo.falla_vehiculo', 'body_fetch.sondeo.falla_detallada',
+    'body_fetch.sondeo.tipo_vehiculo', 'body_fetch.sondeo.ubicacion',
+    'body_fetch.sondeo.volante_gira', 'body_fetch.ubicacion.origen.referencias',
+    'body_fetch.ubicacion.destino.tipo_destino', 'body_fetch.plomeria_sondeo.fuga_visible',
+    'body_fetch.plomeria_sondeo.problema_que_presenta', 'body_fetch.electricidad_sondeo.hay_electricidad',
+    'body_fetch.electricidad_sondeo.problema_que_presenta', 'body_fetch.cerrajeria_sondeo.problema_que_presenta',
+    'body_fetch.vidrieria_sondeo.problema_que_presenta', 'body_fetch.custom_respuesta_agente',
+    'body_fetch.phone', 'body_fetch.telefono'
 ]
 
 PARA_SQL = [
@@ -208,13 +220,43 @@ def extract_inagent_data(start_iso, end_iso):
 
     return pd.DataFrame(all_data, columns=cols if cols else None)
 
+def consolidar_cancel_motive(df):
+    df = df.copy()
+    cols_cancel_posibles = [
+        'tool_body_fetch_cancelMotive',
+        'tool_return_fetch_response_CustomCancelMotive',
+        'tool_return_fetch_response_CatCancelMotive_idCatCancelMotive',
+        'tool_return_fetch_reason',
+        'tool_return_fetch_response_title',
+        'body_fetch_cancelMotive',
+        'return_fetch_response_CustomCancelMotive'
+    ]
+    otras_cols_cancel = [c for c in df.columns if 'cancelmotive' in c.lower() or 'customcancel' in c.lower()]
+    todas_cols_cancel = list(dict.fromkeys(cols_cancel_posibles + otras_cols_cancel))
+    cols_existentes = [c for c in todas_cols_cancel if c in df.columns]
+    
+    if cols_existentes:
+        df_temp = df[cols_existentes].copy()
+        for c in cols_existentes:
+            df_temp[c] = df_temp[c].astype(str).replace(['nan', 'NaN', 'None', 'null', 'n.n', ''], np.nan)
+        
+        motive_unificado = df_temp.bfill(axis=1).iloc[:, 0]
+        df['tool_body_fetch_cancelMotive'] = motive_unificado.fillna('SIN MOTIVO CANCELACION')
+    else:
+        if 'tool_body_fetch_cancelMotive' not in df.columns:
+            df['tool_body_fetch_cancelMotive'] = 'SIN MOTIVO CANCELACION'
+            
+    return df
+
 def cas_inteligente_maestro(df_base, col_logs='ctx_toolLogs'):
     df = df_base.copy()
 
     cols_prioridad = [
         'tool_return_fetch_cas_folio', 
         'tool_body_fetch_cas', 
-        'tool_return_fetch_response_cas_folio'
+        'tool_return_fetch_response_cas_folio',
+        'tool_return_fetch_data_cas_folio',
+        'tool_return_fetch_data_data_cas_folio'
     ]
     
     for col in cols_prioridad:
@@ -227,6 +269,8 @@ def cas_inteligente_maestro(df_base, col_logs='ctx_toolLogs'):
         df['tool_return_fetch_cas_folio'].astype(str).str.contains('cas', case=False, na=False),
         df['tool_body_fetch_cas'].notna(),
         df['tool_return_fetch_response_cas_folio'].notna(),
+        df['tool_return_fetch_data_cas_folio'].notna(),
+        df['tool_return_fetch_data_data_cas_folio'].notna(),
         df['tool_return_fetch_cas_folio'].notna()
     ]
     
@@ -234,6 +278,8 @@ def cas_inteligente_maestro(df_base, col_logs='ctx_toolLogs'):
         df['tool_return_fetch_cas_folio'],
         df['tool_body_fetch_cas'],
         df['tool_return_fetch_response_cas_folio'],
+        df['tool_return_fetch_data_cas_folio'],
+        df['tool_return_fetch_data_data_cas_folio'],
         df['tool_return_fetch_cas_folio']
     ]
 
@@ -241,7 +287,7 @@ def cas_inteligente_maestro(df_base, col_logs='ctx_toolLogs'):
     df['cas_fase1'] = df['cas_fase1'].astype(str).str.upper().replace(['NAN', 'NONE', 'NULL', ''], np.nan)
 
     mask_huerfanos = df['cas_fase1'].isna()
-    df['cas_fase2'] = np.nan # Inicializamos
+    df['cas_fase2'] = np.nan
     
     if mask_huerfanos.any() and col_logs in df.columns:
         df_rescate = df.loc[mask_huerfanos, ['Id', col_logs]].dropna(subset=[col_logs])
@@ -257,31 +303,28 @@ def cas_inteligente_maestro(df_base, col_logs='ctx_toolLogs'):
             df_tools_flat.index = df_tools_exploded.index
             df_tools_flat['Id'] = df_tools_exploded['Id']
 
-            if 'tool' in df_tools_flat.columns:
-                tools_objetivo = ['set_checkup', 'set_checkup_OMV', 'cancelar_cita', 'cancelar_cita_OMV']
-                df_target = df_tools_flat[df_tools_flat['tool'].isin(tools_objetivo)].copy()
-                
-                rutas_cas = [
-                    'return_fetch.cas_folio',
-                    'body_fetch.cas',
-                    'return_fetch.response.cas_folio',
-                    'return_fetch.data.cas_folio'
-                ]
+            rutas_cas = [
+                'return_fetch.cas_folio',
+                'body_fetch.cas',
+                'return_fetch.response.cas_folio',
+                'return_fetch.data.cas_folio',
+                'return_fetch.data.data.cas_folio'
+            ]
 
-                cols_existentes = [c for c in rutas_cas if c in df_target.columns]
+            cols_existentes = [c for c in rutas_cas if c in df_tools_flat.columns]
+            
+            if cols_existentes:
+                df_tools_flat['cas_rescatado'] = df_tools_flat[cols_existentes].bfill(axis=1).iloc[:, 0]
+                df_tools_flat['cas_rescatado'] = df_tools_flat['cas_rescatado'].astype(str).str.upper().replace(['NAN', 'NONE', 'NULL', ''], np.nan)
                 
-                if cols_existentes:
-                    df_target['cas_rescatado'] = df_target[cols_existentes].bfill(axis=1).iloc[:, 0]
-                    df_target['cas_rescatado'] = df_target['cas_rescatado'].astype(str).str.upper().replace(['NAN', 'NONE', 'NULL', ''], np.nan)
+                df_validos = df_tools_flat.dropna(subset=['cas_rescatado'])
+                
+                if not df_validos.empty:
+                    df_cas_unico = df_validos.drop_duplicates(subset=['Id'], keep='last')[['Id', 'cas_rescatado']]
                     
-                    df_validos = df_target.dropna(subset=['cas_rescatado'])
-                    
-                    if not df_validos.empty:
-                        df_cas_unico = df_validos.drop_duplicates(subset=['Id'], keep='last')[['Id', 'cas_rescatado']]
-                        
-                        df = df.merge(df_cas_unico, on='Id', how='left')
-                        df['cas_fase2'] = df['cas_rescatado']
-                        df = df.drop(columns=['cas_rescatado'])
+                    df = df.merge(df_cas_unico, on='Id', how='left')
+                    df['cas_fase2'] = df['cas_rescatado']
+                    df = df.drop(columns=['cas_rescatado'])
 
     df['cas_final'] = df['cas_fase1'].fillna(df['cas_fase2'])
     df['cas'] = df['cas_final'].fillna('SIN FOLIO CAS')
@@ -460,6 +503,9 @@ def transform_data(df_raw):
     df_listo['Evento'] = np.select(condiciones, resultados, default='Sin evento')
 
     df_listo = aplicar_taxonomia_eventos(df_listo, 'Tema_general_de_la_conversación')
+    
+    # Consolidación unificada de motivos de cancelación
+    df_listo = consolidar_cancel_motive(df_listo)
     
     # Mapeo personalizado / Asignaciones
     df_listo['Id_Canal'] = df_listo['Origen']
